@@ -1,22 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Type Ahead 👀</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Type Ahead 👀</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <form class="search-form">
+      <input type="text" class="search" placeholder="City or State" />
+      <ul class="suggestions">
+        <li>Filter for a city</li>
+        <li>or a state</li>
+      </ul>
+    </form>
+    <script>
+      const endpoint =
+        "https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json";
 
-  <form class="search-form">
-    <input type="text" class="search" placeholder="City or State">
-    <ul class="suggestions">
-      <li>Filter for a city</li>
-      <li>or a state</li>
-    </ul>
-  </form>
-<script>
-const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+      let searchBar = document.querySelector(".search");
+      let suggestionsDiv = document.querySelector(".suggestions");
+      const allLocation = [];
 
-</script>
-</body>
+      let fetchData = async () => {
+        let response = await fetch(endpoint);
+        let locations = await response.json();
+        return locations;
+      };
+
+      fetchData().then((locations) => {
+        locations.forEach((location) => {
+          allLocation.push({
+            cityName: location.city,
+            stateName: location.state,
+            populationNumber: location.population,
+          });
+        });
+      });
+
+      let searchLocation = (e) => {
+        const filteredLocation = allLocation.filter((location) => {
+          return (
+            location.cityName
+              .toUpperCase()
+              .includes(e.target.value.toUpperCase()) ||
+            location.stateName
+              .toUpperCase()
+              .includes(e.target.value.toUpperCase())
+          );
+        });
+
+        let populationFormatter = (population) => {
+          return population.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        };
+
+        let filteredResults = filteredLocation
+          .map((location) => {
+            if (e.target.value === "") {
+              return;
+            } else {
+              const searchLocation = e.target.value;
+              const regex = new RegExp(searchLocation, "gi");
+
+              const searchedCity = location.cityName.replace(
+                regex,
+                `<mark class="hl">$&</mark>`
+              );
+              const searchedState = location.stateName.replace(
+                regex,
+                `<mark class="hl">$&</mark>`
+              );
+              return `<li>
+                <span class="name">${searchedCity}, ${searchedState}</span> 
+                <span class="population">${populationFormatter(
+                  location.populationNumber
+                )}</span>
+                </li>`;
+            }
+          })
+          .join("");
+
+        suggestionsDiv.innerHTML = filteredResults;
+      };
+
+      searchBar.addEventListener("input", searchLocation);
+    </script>
+  </body>
 </html>
