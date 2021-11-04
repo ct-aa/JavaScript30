@@ -76,28 +76,22 @@
     </style>
 
     <script>
-      const spacing = document.querySelector("#spacing");
-      const blur = document.querySelector("#blur");
+      const allSliders = document.querySelectorAll("#spacing, #blur");
       const base = document.querySelector("#base");
 
-      spacing.addEventListener("input", (e) => {
-        document.documentElement.style.setProperty(
-          `--${e.target.name}`,
-          `${spacing.value}px`
-        );
+      allSliders.forEach((input) => {
+        input.addEventListener("input", (e) => {
+          document.documentElement.style.setProperty(
+            `--${e.target.name}`,
+            `${e.target.value}px`
+          );
+        });
       });
 
-      blur.addEventListener("input", (e) => {
+      base.addEventListener("input", (e) => {
         document.documentElement.style.setProperty(
           `--${e.target.name}`,
-          `${blur.value}px`
-        );
-      });
-
-      base.addEventListener("change", (e) => {
-        document.documentElement.style.setProperty(
-          `--${e.target.name}`,
-          `${base.value}`
+          `${e.target.value}`
         );
       });
     </script>
