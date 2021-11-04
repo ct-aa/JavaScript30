@@ -76,23 +76,15 @@
     </style>
 
     <script>
-      const allSliders = document.querySelectorAll("#spacing, #blur");
-      const base = document.querySelector("#base");
+      const allInputs = document.querySelectorAll(".controls input");
 
-      allSliders.forEach((input) => {
+      allInputs.forEach((input) => {
         input.addEventListener("input", (e) => {
           document.documentElement.style.setProperty(
             `--${e.target.name}`,
-            `${e.target.value}px`
+            `${e.target.value + (e.target.dataset.sizing ? "px" : "")}`
           );
         });
-      });
-
-      base.addEventListener("input", (e) => {
-        document.documentElement.style.setProperty(
-          `--${e.target.name}`,
-          `${e.target.value}`
-        );
       });
     </script>
   </body>
