@@ -82,17 +82,23 @@
 
       spacing.addEventListener("input", (e) => {
         document.documentElement.style.setProperty(
-          "--spacing",
+          `--${e.target.name}`,
           `${spacing.value}px`
         );
       });
 
       blur.addEventListener("input", (e) => {
-        document.documentElement.style.setProperty("--blur", `${blur.value}px`);
+        document.documentElement.style.setProperty(
+          `--${e.target.name}`,
+          `${blur.value}px`
+        );
       });
 
       base.addEventListener("change", (e) => {
-        document.documentElement.style.setProperty("--base", `${base.value}`);
+        document.documentElement.style.setProperty(
+          `--${e.target.name}`,
+          `${base.value}`
+        );
       });
     </script>
   </body>
