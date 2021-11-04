@@ -17,8 +17,8 @@
       const endpoint =
         "https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json";
 
-      let searchBar = document.querySelector(".search");
-      let suggestionsDiv = document.querySelector(".suggestions");
+      const searchBar = document.querySelector(".search");
+      const suggestionsDiv = document.querySelector(".suggestions");
       const allLocation = [];
 
       let fetchData = async () => {
@@ -28,24 +28,20 @@
       };
 
       fetchData().then((locations) => {
-        locations.forEach((location) => {
+        locations.forEach(({ city, state, population }) => {
           allLocation.push({
-            cityName: location.city,
-            stateName: location.state,
-            populationNumber: location.population,
+            city,
+            state,
+            population,
           });
         });
       });
 
       let searchLocation = (e) => {
-        const filteredLocation = allLocation.filter((location) => {
+        const filteredLocation = allLocation.filter(({ city, state }) => {
           return (
-            location.cityName
-              .toUpperCase()
-              .includes(e.target.value.toUpperCase()) ||
-            location.stateName
-              .toUpperCase()
-              .includes(e.target.value.toUpperCase())
+            city.toUpperCase().includes(e.target.value.toUpperCase()) ||
+            state.toUpperCase().includes(e.target.value.toUpperCase())
           );
         });
 
@@ -54,25 +50,25 @@
         };
 
         let filteredResults = filteredLocation
-          .map((location) => {
+          .map((filteredRes) => {
             if (e.target.value === "") {
               return;
             } else {
               const searchLocation = e.target.value;
               const regex = new RegExp(searchLocation, "gi");
 
-              const searchedCity = location.cityName.replace(
+              const searchedCity = filteredRes.city.replace(
                 regex,
                 `<mark class="hl">$&</mark>`
               );
-              const searchedState = location.stateName.replace(
+              const searchedState = filteredRes.state.replace(
                 regex,
                 `<mark class="hl">$&</mark>`
               );
               return `<li>
                 <span class="name">${searchedCity}, ${searchedState}</span> 
                 <span class="population">${populationFormatter(
-                  location.populationNumber
+                  filteredRes.population
                 )}</span>
                 </li>`;
             }
