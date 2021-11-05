@@ -21,9 +21,9 @@
       const suggestionsDiv = document.querySelector(".suggestions");
       const allLocation = [];
 
-      let fetchData = async () => {
-        let response = await fetch(endpoint);
-        let locations = await response.json();
+      const fetchData = async () => {
+        const response = await fetch(endpoint);
+        const locations = await response.json();
         return locations;
       };
 
@@ -37,7 +37,7 @@
         });
       });
 
-      let searchLocation = (e) => {
+      const searchLocation = (e) => {
         const filteredLocation = allLocation.filter(({ city, state }) => {
           return (
             city.toUpperCase().includes(e.target.value.toUpperCase()) ||
@@ -45,17 +45,19 @@
           );
         });
 
-        let populationFormatter = (population) => {
-          return population.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        const populationFormatter = (populationNumber) => {
+          return populationNumber
+            .toString()
+            .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         };
 
-        let filteredResults = filteredLocation
+        const filteredResults = filteredLocation
           .map((filteredRes) => {
             if (e.target.value === "") {
               return;
             } else {
-              const searchLocation = e.target.value;
-              const regex = new RegExp(searchLocation, "gi");
+              const searchInput = e.target.value;
+              const regex = new RegExp(searchInput, "gi");
 
               const searchedCity = filteredRes.city.replace(
                 regex,
