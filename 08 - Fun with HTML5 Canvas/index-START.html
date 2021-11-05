@@ -15,22 +15,22 @@
       ctx.lineWidth = 100;
       ctx.lineCap = "round";
 
-      let painting = false;
+      let isPainting = false;
       let hue = 0;
-      let brushWidth = true;
+      let isSizeIncreasing = true;
 
       const startPainting = (e) => {
-        painting = true;
+        isPainting = true;
         nowPainting(e);
       };
 
       const endPainting = () => {
-        painting = false;
+        isPainting = false;
         ctx.beginPath();
       };
 
       const nowPainting = (e) => {
-        if (!painting) return;
+        if (!isPainting) return;
 
         ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`;
         ctx.lineTo(e.clientX, e.clientY);
@@ -41,18 +41,18 @@
         hue++;
         if (hue >= 360) hue = 0;
 
-        if (brushWidth == true && ctx.lineWidth <= 100) {
+        if (isSizeIncreasing == true && ctx.lineWidth <= 100) {
           ctx.lineWidth++;
 
           if (ctx.lineWidth == 100) {
-            brushWidth = false;
+            isSizeIncreasing = false;
           }
         } else {
-          brushWidth = false;
+          isSizeIncreasing = false;
           ctx.lineWidth--;
 
           if (ctx.lineWidth == 1) {
-            brushWidth = true;
+            isSizeIncreasing = true;
           }
         }
       };
