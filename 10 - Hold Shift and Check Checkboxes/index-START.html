@@ -101,8 +101,8 @@
 
       const handleCheckbox = (e, selectedIndex) => {
         if (e.shiftKey === true) {
-          allCheckbox.forEach((checkbox, allIndexes) => {
-            if (selectedIndex <= allIndexes) {
+          allCheckbox.forEach((checkbox, index) => {
+            if (selectedIndex <= index) {
               checkbox.checked = true;
             } else {
               checkbox.checked = false;
