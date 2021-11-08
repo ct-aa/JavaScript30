@@ -1,19 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>HTML5 Canvas</title>
-</head>
-<body>
-<canvas id="draw" width="800" height="800"></canvas>
-<script>
-</script>
+  <head>
+    <meta charset="UTF-8" />
+    <title>HTML5 Canvas</title>
+  </head>
+  <body>
+    <canvas id="draw" width="800" height="800"></canvas>
+    <script>
+      const canvas = document.querySelector("#draw");
+      canvas.height = window.innerHeight;
+      canvas.width = window.innerWidth;
 
-<style>
-  html, body {
-    margin: 0;
-  }
-</style>
+      const ctx = canvas.getContext("2d");
+      ctx.lineWidth = 100;
+      ctx.lineCap = "round";
 
-</body>
+      let isPainting = false;
+      let hue = 0;
+      let isSizeIncreasing = true;
+
+      const startPainting = (e) => {
+        isPainting = true;
+        nowPainting(e);
+      };
+
+      const endPainting = () => {
+        isPainting = false;
+        ctx.beginPath();
+      };
+
+      const nowPainting = (e) => {
+        if (!isPainting) return;
+
+        ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`;
+        ctx.lineTo(e.clientX, e.clientY);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(e.clientX, e.clientY);
+
+        hue++;
+        if (hue >= 360) hue = 0;
+
+        if (isSizeIncreasing == true && ctx.lineWidth <= 100) {
+          ctx.lineWidth++;
+
+          if (ctx.lineWidth == 100) {
+            isSizeIncreasing = false;
+          }
+        } else {
+          isSizeIncreasing = false;
+          ctx.lineWidth--;
+
+          if (ctx.lineWidth == 1) {
+            isSizeIncreasing = true;
+          }
+        }
+      };
+
+      canvas.addEventListener("mousedown", startPainting);
+      canvas.addEventListener("mouseup", endPainting);
+      canvas.addEventListener("mousemove", nowPainting);
+    </script>
+
+    <style>
+      html,
+      body {
+        margin: 0;
+      }
+    </style>
+  </body>
 </html>
