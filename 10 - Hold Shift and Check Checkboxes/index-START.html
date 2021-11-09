@@ -99,16 +99,23 @@
         ".inbox input[type='checkbox']"
       );
 
+      let lastCheckedBox;
+
       const handleCheckbox = (e, selectedIndex) => {
-        if (e.shiftKey === true) {
+        let inBetween = false;
+
+        if (e.shiftKey === true && e.target.checked) {
           allCheckbox.forEach((checkbox, index) => {
-            if (selectedIndex <= index) {
+            if (index === selectedIndex || index === lastCheckedBox) {
+              inBetween = !inBetween;
+            }
+            if (inBetween) {
               checkbox.checked = true;
-            } else {
-              checkbox.checked = false;
             }
           });
         }
+
+        lastCheckedBox = selectedIndex;
       };
 
       allCheckbox.forEach((checkbox, index) => {
