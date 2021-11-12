@@ -58,20 +58,20 @@
       const itemsList = document.querySelector(".plates");
       const items = [];
 
-      const handleItemsUpdate = () => {
-        const localStorageArrays = localStorage.getItem("allTapas");
+      const handleTapasDisplay = () => {
+        const localStorageArrays = localStorage.getItem("tapasStorage");
         const localStorageTapas = JSON.parse(localStorageArrays);
         items.length = 0;
-        localStorageTapas.forEach((tapas) => {
-          items.push(tapas);
+        localStorageTapas.forEach((tapa) => {
+          items.push(tapa);
         });
 
         let tapaList = "";
         items.forEach((item, index) => {
-          if (item) {
-            tapaList += `<input type="checkbox" name="${item.name}" id="${
-              item.name + index
-            }"><label for="${item.name + index}">${item.name}</label><hr>`;
+          if (item.isChecked == true) {
+            tapaList += `<li><input type="checkbox" name="${item.name}" id="${index}" checked><label for="${index}">${item.name}</label></li>`;
+          } else {
+            tapaList += `<li><input type="checkbox" name="${item.name}" id="${index}"><label for="${index}">${item.name}</label></li>`;
           }
         });
         itemsList.innerHTML = tapaList;
@@ -79,13 +79,22 @@
 
       const handleSubmitTapa = () => {
         const tapaName = addItems.item.value;
-        items.push({ name: tapaName, checked: false });
-        localStorage.setItem("allTapas", JSON.stringify(items));
-        handleItemsUpdate();
+        items.push({ name: tapaName, isChecked: false });
+        localStorage.setItem("tapasStorage", JSON.stringify(items));
       };
 
-      window.addEventListener("load", handleItemsUpdate);
+      const handleCheckBoxUpdate = (e, index) => {
+        const tapaIndex = parseInt(e.target.id);
+        items[tapaIndex] = {
+          name: e.target.name,
+          isChecked: e.target.checked,
+        };
+        localStorage.setItem("tapasStorage", JSON.stringify(items));
+      };
+
+      window.addEventListener("load", handleTapasDisplay);
       addItems.addEventListener("submit", handleSubmitTapa);
+      itemsList.addEventListener("click", handleCheckBoxUpdate);
     </script>
   </body>
 </html>
