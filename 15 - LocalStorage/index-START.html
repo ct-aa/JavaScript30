@@ -61,6 +61,12 @@
       const handleTapasDisplay = () => {
         const localStorageArrays = localStorage.getItem("tapasStorage");
         const localStorageTapas = JSON.parse(localStorageArrays);
+
+        if (localStorageTapas === null) {
+          itemsList.innerHTML = "";
+          return;
+        }
+
         items.length = 0;
         localStorageTapas.forEach((tapa) => {
           items.push(tapa);
@@ -68,19 +74,21 @@
 
         let tapaList = "";
         items.forEach((item, index) => {
-          if (item.isChecked == true) {
-            tapaList += `<li><input type="checkbox" name="${item.name}" id="${index}" checked><label for="${index}">${item.name}</label></li>`;
-          } else {
-            tapaList += `<li><input type="checkbox" name="${item.name}" id="${index}"><label for="${index}">${item.name}</label></li>`;
-          }
+          item.isChecked
+            ? (tapaList += `<li><input type="checkbox" name="${item.name}" id="${index}" checked><label for="${index}">${item.name}</label></li>`)
+            : (tapaList += `<li><input type="checkbox" name="${item.name}" id="${index}"><label for="${index}">${item.name}</label></li>`);
         });
+
         itemsList.innerHTML = tapaList;
       };
 
-      const handleSubmitTapa = () => {
+      const handleSubmitTapa = (e) => {
+        e.preventDefault();
         const tapaName = addItems.item.value;
         items.push({ name: tapaName, isChecked: false });
         localStorage.setItem("tapasStorage", JSON.stringify(items));
+        handleTapasDisplay();
+        e.target.reset();
       };
 
       const handleCheckBoxUpdate = (e, index) => {
