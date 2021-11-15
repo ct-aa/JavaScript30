@@ -1,40 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Mouse Shadow</title>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Mouse Shadow</title>
+  </head>
+  <body>
+    <div class="hero">
+      <h1 contenteditable>🔥WOAH!</h1>
+    </div>
 
-  <div class="hero">
-    <h1 contenteditable>🔥WOAH!</h1>
-  </div>
+    <style>
+      html {
+        color: black;
+        font-family: sans-serif;
+      }
 
-  <style>
-  html {
-    color: black;
-    font-family: sans-serif;
-  }
+      body {
+        margin: 0;
+      }
 
-  body {
-    margin: 0;
-  }
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: black;
+      }
 
-  .hero {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: black;
-  }
+      h1 {
+        text-shadow: 10px 10px 0 rgba(0, 0, 0, 1);
+        font-size: 100px;
+      }
+    </style>
 
-  h1 {
-    text-shadow: 10px 10px 0 rgba(0,0,0,1);
-    font-size: 100px;
-  }
-  </style>
+    <script>
+      const hero = document.querySelector(".hero");
+      const woah = document.querySelector(".hero h1");
+      const distance = 500;
 
-<script>
-</script>
-</body>
+      const handleMouseMove = (e) => {
+        let mouseX = e.offsetX;
+        let mouseY = e.offsetY;
+
+        if (e.target !== hero) {
+          mouseX = e.offsetX + e.target.offsetLeft;
+          mouseY = e.offsetY + e.target.offsetTop;
+        }
+
+        const distanceX = (mouseX / hero.offsetWidth) * distance - distance / 2;
+        const distanceY =
+          (mouseY / hero.offsetHeight) * distance - distance / 2;
+
+        woah.style.textShadow = `
+        ${distanceX}px ${distanceY}px 0 rgba(255,232,8,1),
+        ${distanceX * -1}px ${distanceY}px 0 rgba(255,206,0,1),
+        ${distanceY}px ${distanceX * -1}px 0 rgba(255,154,0,1),
+        ${distanceY * -1}px ${distanceX}px 0 rgba(255,90,0,1)`;
+      };
+
+      hero.addEventListener("mousemove", handleMouseMove);
+    </script>
+  </body>
 </html>
