@@ -73,11 +73,14 @@
         });
 
         let tapaList = "";
-        items.forEach((item, index) => {
-          item.isChecked
-            ? (tapaList += `<li><input type="checkbox" name="${item.name}" id="${index}" checked><label for="${index}">${item.name}</label></li>`)
-            : (tapaList += `<li><input type="checkbox" name="${item.name}" id="${index}"><label for="${index}">${item.name}</label></li>`);
-        });
+        items.forEach(
+          (item, index) =>
+            (tapaList += `<li><input type="checkbox" name="${
+              item.name
+            }" id="${index}" ${
+              item.isChecked ? "checked" : ""
+            }><label for="${index}">${item.name}</label></li>`)
+        );
 
         itemsList.innerHTML = tapaList;
       };
