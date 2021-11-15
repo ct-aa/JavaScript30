@@ -75,11 +75,14 @@
         let tapaList = "";
         items.forEach(
           (item, index) =>
-            (tapaList += `<li><input type="checkbox" name="${
-              item.name
-            }" id="${index}" ${
+            (tapaList += `
+            <li>
+              <input type="checkbox" name="${item.name}" id="${index}" ${
               item.isChecked ? "checked" : ""
-            }><label for="${index}">${item.name}</label></li>`)
+            }>
+              <label for="${index}">${item.name}</label>
+            </li>
+            `)
         );
 
         itemsList.innerHTML = tapaList;
