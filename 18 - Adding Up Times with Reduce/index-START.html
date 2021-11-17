@@ -67,10 +67,10 @@
     </ul>
     <script>
       const videoDurations = document.querySelectorAll("[data-time]");
-      let durationsHoursSeconds = [];
+      const durationsHoursSeconds = [];
 
       videoDurations.forEach((duration) => {
-        let splitDuration = duration.dataset.time.split(":");
+        const splitDuration = duration.dataset.time.split(":");
         durationsHoursSeconds.push({
           minutes: parseInt(splitDuration[0]),
           seconds: parseInt(splitDuration[1]),
