@@ -64,8 +64,8 @@
       let bandsHTMLContent = "";
 
       const compareBands = (firstBand, secondBand) => {
-        let firstBandName = removeArticles(firstBand.toLowerCase());
-        let secondBandName = removeArticles(secondBand.toLowerCase());
+        const firstBandName = removeArticles(firstBand.toLowerCase());
+        const secondBandName = removeArticles(secondBand.toLowerCase());
         return firstBandName > secondBandName
           ? 1
           : firstBandName < secondBandName
@@ -74,7 +74,7 @@
       };
 
       const removeArticles = (bandName) => {
-        let inWords = bandName.split(" ");
+        const inWords = bandName.split(" ");
         return inWords[0] == "a" || inWords[0] == "the" || inWords[0] == "an"
           ? inWords.splice(1).join(" ")
           : bandName;
