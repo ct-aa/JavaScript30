@@ -43,8 +43,8 @@
         let mouseY = e.offsetY;
 
         if (e.target !== hero) {
-          mouseX = e.offsetX + e.target.offsetLeft;
-          mouseY = e.offsetY + e.target.offsetTop;
+          mouseX += e.target.offsetLeft;
+          mouseY += e.target.offsetTop;
         }
 
         const distanceX = (mouseX / hero.offsetWidth) * distance - distance / 2;
