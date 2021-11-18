@@ -77,18 +77,14 @@
         });
       });
 
-      const getSeconds = durationsHoursSeconds.reduce(
-        (totalSeconds, { seconds }) => {
-          return (totalSeconds += seconds);
+      const { getSeconds, getMinutes } = durationsHoursSeconds.reduce(
+        ({ getSeconds, getMinutes }, { seconds, minutes }) => {
+          return {
+            getSeconds: (getSeconds += seconds),
+            getMinutes: (getMinutes += minutes),
+          };
         },
-        0
-      );
-
-      const getMinutes = durationsHoursSeconds.reduce(
-        (totalMinutes, { minutes }) => {
-          return (totalMinutes += minutes);
-        },
-        0
+        { getSeconds: 0, getMinutes: 0 }
       );
 
       const totalSeconds = getSeconds + getMinutes * 60;
